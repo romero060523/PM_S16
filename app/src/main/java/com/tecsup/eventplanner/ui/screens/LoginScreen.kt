@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -12,19 +13,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tecsup.eventplanner.R
+import com.tecsup.eventplanner.viewmodel.AuthViewModel
 
 @Composable
 fun LoginScreen(
     onNavigateToRegister: () -> Unit,
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    authViewModel: AuthViewModel = viewModel()
 ) {
-    val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
+    val uiState by authViewModel.uiState.collectAsState()
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -91,32 +94,22 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    if (email.isBlank() || password.isBlank()) {
-                        Toast.makeText(context, "Complete todos los campos", Toast.LENGTH_SHORT).show()
-                        return@Button
-                    }
-
-                    // Lógica del botón (Imagen 2)
-                    isLoading = true
-                    auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            isLoading = false
-                            if (task.isSuccessful) {
-                                Toast.makeText(context, "Inicio exitoso ✅", Toast.LENGTH_SHORT).show()
-                                onLoginSuccess()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "Error: ${task.exception?.message}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                    authViewModel.login(
+                        email = email,
+                        password = password,
+                        onSuccess = {
+                            Toast.makeText(context, "Inicio exitoso ✅", Toast.LENGTH_SHORT).show()
+                            onLoginSuccess()
+                        },
+                        onError = { error ->
+                            Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
                         }
+                    )
                 },
-                enabled = !isLoading,
+                enabled = !uiState.isLoading,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(if (isLoading) "Cargando..." else "Ingresar")
+                Text(if (uiState.isLoading) "Cargando..." else "Ingresar")
             }
 
             TextButton(onClick = onNavigateToRegister) {

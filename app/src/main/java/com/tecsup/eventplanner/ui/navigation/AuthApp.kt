@@ -7,6 +7,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import com.tecsup.eventplanner.ui.screens.EventEntryScreen
+import com.tecsup.eventplanner.ui.screens.HomeScreen
 import com.tecsup.eventplanner.ui.screens.LoginScreen
 import com.tecsup.eventplanner.ui.screens.RegisterScreen
 
@@ -14,8 +19,8 @@ object Destinations {
     const val LOGIN = "login"
     const val REGISTER = "register"
     const val HOME = "home"
-    const val COURSE_ENTRY = "course_entry"
-    const val COURSE_ENTRY_EDIT = "course_entry/{courseId}/{courseName}/{courseDescription}"
+    const val EVENT_ENTRY = "event_entry"
+    const val EVENT_ENTRY_EDIT = "event_entry/{eventId}/{eventTitle}/{eventDate}/{eventDescription}"
 }
 
 @Composable
@@ -66,41 +71,53 @@ fun AuthNavGraph(navController: NavHostController) {
                         popUpTo(Destinations.HOME) { inclusive = true }
                     }
                 },
-                onNavigateToAddCourse = {
-                    navController.navigate(Destinations.COURSE_ENTRY)
+                onNavigateToAddEvent = {
+                    navController.navigate(Destinations.EVENT_ENTRY)
                 },
-                onNavigateToEditCourse = { courseId, courseName, courseDescription ->
-                    navController.navigate("course_entry/$courseId/$courseName/$courseDescription")
+                onNavigateToEditEvent = { eventId, eventTitle, eventDate, eventDescription ->
+                    val encodedTitle = URLEncoder.encode(eventTitle, StandardCharsets.UTF_8.toString())
+                    val encodedDate = URLEncoder.encode(eventDate, StandardCharsets.UTF_8.toString())
+                    val encodedDescription = URLEncoder.encode(eventDescription, StandardCharsets.UTF_8.toString())
+                    navController.navigate("event_entry/$eventId/$encodedTitle/$encodedDate/$encodedDescription")
                 }
             )
         }
 
-        // Pantalla para agregar curso
-        composable(Destinations.COURSE_ENTRY) {
-            CourseEntryScreen(
+        // Pantalla para agregar evento
+        composable(Destinations.EVENT_ENTRY) {
+            EventEntryScreen(
                 onNavigateBack = {
                     navController.popBackStack()
                 }
             )
         }
 
-        // Pantalla para editar curso
+        // Pantalla para editar evento
         composable(
-            route = Destinations.COURSE_ENTRY_EDIT,
+            route = Destinations.EVENT_ENTRY_EDIT,
             arguments = listOf(
-                navArgument("courseId") { type = NavType.StringType },
-                navArgument("courseName") { type = NavType.StringType },
-                navArgument("courseDescription") { type = NavType.StringType }
+                navArgument("eventId") { type = NavType.StringType },
+                navArgument("eventTitle") { type = NavType.StringType },
+                navArgument("eventDate") { type = NavType.StringType },
+                navArgument("eventDescription") { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val courseId = backStackEntry.arguments?.getString("courseId")
-            val courseName = backStackEntry.arguments?.getString("courseName")
-            val courseDescription = backStackEntry.arguments?.getString("courseDescription")
+            val eventId = backStackEntry.arguments?.getString("eventId")
+            val eventTitle = backStackEntry.arguments?.getString("eventTitle")?.let {
+                URLDecoder.decode(it, StandardCharsets.UTF_8.toString())
+            }
+            val eventDate = backStackEntry.arguments?.getString("eventDate")?.let {
+                URLDecoder.decode(it, StandardCharsets.UTF_8.toString())
+            }
+            val eventDescription = backStackEntry.arguments?.getString("eventDescription")?.let {
+                URLDecoder.decode(it, StandardCharsets.UTF_8.toString())
+            }
 
-            CourseEntryScreen(
-                courseId = courseId,
-                courseName = courseName,
-                courseDescription = courseDescription,
+            EventEntryScreen(
+                eventId = eventId,
+                eventTitle = eventTitle,
+                eventDate = eventDate,
+                eventDescription = eventDescription,
                 onNavigateBack = {
                     navController.popBackStack()
                 }
