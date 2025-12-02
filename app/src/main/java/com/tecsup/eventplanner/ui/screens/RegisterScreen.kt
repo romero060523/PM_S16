@@ -9,20 +9,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import com.tecsup.eventplanner.viewmodel.AuthViewModel
 
 @Composable
 fun RegisterScreen(
     onRegisterSuccess: () -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    authViewModel: AuthViewModel = viewModel()
 ) {
-    val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
+    val uiState by authViewModel.uiState.collectAsState()
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier.fillMaxSize().padding(16.dp),
@@ -67,40 +69,23 @@ fun RegisterScreen(
             // Botón de Registro
             Button(
                 onClick = {
-                    if (email.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
-                        Toast.makeText(context, "Complete todos los campos", Toast.LENGTH_SHORT).show()
-                        return@Button
-                    }
-
-                    if (password != confirmPassword) {
-                        Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
-                        return@Button
-                    }
-                    if (password.length < 6) {
-                        Toast.makeText(context, "Mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
-                        return@Button
-                    }
-
-                    isLoading = true
-                    auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            isLoading = false
-                            if (task.isSuccessful) {
-                                Toast.makeText(context, "Usuario creado ✅", Toast.LENGTH_SHORT).show()
-                                onRegisterSuccess()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "Error: ${task.exception?.message}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                    authViewModel.register(
+                        email = email,
+                        password = password,
+                        confirmPassword = confirmPassword,
+                        onSuccess = {
+                            Toast.makeText(context, "Usuario creado ✅", Toast.LENGTH_SHORT).show()
+                            onRegisterSuccess()
+                        },
+                        onError = { error ->
+                            Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
                         }
+                    )
                 },
-                enabled = !isLoading,
+                enabled = !uiState.isLoading,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(if (isLoading) "Creando..." else "Registrarse")
+                Text(if (uiState.isLoading) "Creando..." else "Registrarse")
             }
 
             // Botón para volver

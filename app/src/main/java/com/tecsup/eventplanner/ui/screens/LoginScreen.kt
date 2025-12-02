@@ -53,9 +53,8 @@ fun LoginScreen(
         */
         Spacer(modifier = Modifier.height(12.dp))
         // ---------- IMAGEN TECsup ---------
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+
+        Column {
             Image(
                 painter = painterResource(id = R.drawable.eventplanner),
                 contentDescription = "Logo Tecsup",
