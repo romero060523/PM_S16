@@ -13,6 +13,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
+import com.tecsup.eventplanner.R
 
 @Composable
 fun LoginScreen(
@@ -52,13 +53,17 @@ fun LoginScreen(
         */
         Spacer(modifier = Modifier.height(12.dp))
         // ---------- IMAGEN TECsup ---------
-        Image(
-            painter = painterResource(id = R.drawable.eventplanner),
-            contentDescription = "Logo Tecsup",
-            modifier = Modifier
-                .size(120.dp) // Ajusta el tamaño si quieres más grande o más pequeño
-                .align(Alignment.CenterHorizontally)
-        )
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.eventplanner),
+                contentDescription = "Logo Tecsup",
+                modifier = Modifier
+                    .size(120.dp) // Ajusta el tamaño si quieres más grande o más pequeño
+                    .align(Alignment.CenterHorizontally)
+            )
+        }
 
 
         // ---------- CONTENIDO PRINCIPAL --------- (Imagen 3)
