@@ -1,0 +1,122 @@
+CONCEPTOS TÉCNICOS - EventPlanner
+
+===========================================
+1. ¿QUÉ ES MVVM?
+===========================================
+
+MVVM (Model-View-ViewModel) es un patrón de arquitectura de software que separa la lógica de negocio de la interfaz de usuario.
+
+• MODEL (Modelo): Representa los datos y la lógica de negocio. En nuestro caso, la clase Event que representa un evento.
+
+• VIEW (Vista): Es la interfaz de usuario. En nuestro proyecto, las pantallas de Compose (LoginScreen, HomeScreen, etc.).
+
+• VIEWMODEL: Actúa como intermediario entre la Vista y el Modelo. Contiene la lógica de presentación y expone datos observables para la Vista. En nuestro proyecto: AuthViewModel y EventViewModel.
+
+VENTAJAS:
+- Separación de responsabilidades
+- Facilita las pruebas unitarias
+- Permite reutilizar ViewModels en diferentes vistas
+- Mantiene la UI reactiva a cambios en los datos
+
+
+===========================================
+2. ¿QUÉ ES FIREBASE AUTH?
+===========================================
+
+Firebase Authentication es un servicio de autenticación de Google que permite a los desarrolladores agregar fácilmente autenticación de usuarios a sus aplicaciones.
+
+CARACTERÍSTICAS:
+- Autenticación con email y contraseña
+- Soporte para múltiples proveedores (Google, Facebook, etc.)
+- Gestión automática de sesiones
+- Recuperación de contraseñas
+- Validación de usuarios
+
+EN NUESTRO PROYECTO:
+- Usamos Firebase Auth para el registro e inicio de sesión de usuarios
+- Cada usuario autenticado tiene un UID único que usamos para asociar eventos a usuarios
+- La autenticación se maneja en AuthViewModel
+
+
+===========================================
+3. ¿QUÉ ES FIRESTORE?
+===========================================
+
+Firestore es una base de datos NoSQL en la nube de Firebase que almacena datos en documentos organizados en colecciones.
+
+CARACTERÍSTICAS:
+- Base de datos en tiempo real (sincronización automática)
+- Escalable y flexible
+- Consultas potentes
+- Seguridad basada en reglas
+- Sincronización offline
+
+ESTRUCTURA:
+- Colecciones: Grupos de documentos (ej: "events")
+- Documentos: Unidades de datos (cada evento es un documento)
+- Campos: Propiedades dentro de un documento (title, date, description, userId)
+
+EN NUESTRO PROYECTO:
+- Almacenamos eventos en la colección "events"
+- Cada evento tiene: id, title, date, description, userId
+- Usamos snapshot listeners para actualizaciones en tiempo real
+- Filtramos eventos por userId para mostrar solo los del usuario actual
+
+
+===========================================
+4. ¿QUÉ ES JETPACK COMPOSE?
+===========================================
+
+Jetpack Compose es el toolkit moderno de Android para construir interfaces de usuario nativas usando Kotlin.
+
+CARACTERÍSTICAS:
+- Declarativo: Describes cómo debe verse la UI, no cómo construirla
+- Composable: Funciones que pueden combinarse para crear UI compleja
+- Reactivo: La UI se actualiza automáticamente cuando cambian los datos
+- Menos código: Comparado con XML y View system tradicional
+
+VENTAJAS:
+- Código más conciso y legible
+- Prevención de errores en tiempo de compilación
+- Mejor rendimiento
+- Integración con Material Design 3
+
+EN NUESTRO PROYECTO:
+- Todas las pantallas están construidas con Compose
+- Usamos Material3 para componentes modernos
+- State management con StateFlow y collectAsState
+- Navegación con Navigation Compose
+
+
+===========================================
+5. ¿QUÉ ES UN CRUD?
+===========================================
+
+CRUD es un acrónimo que significa Create (Crear), Read (Leer), Update (Actualizar), Delete (Eliminar). Representa las cuatro operaciones básicas que se pueden realizar sobre datos persistentes.
+
+OPERACIONES:
+
+1. CREATE (Crear):
+   - Crear nuevos registros/documentos
+   - En nuestro proyecto: Crear nuevos eventos
+
+2. READ (Leer):
+   - Obtener y mostrar datos existentes
+   - En nuestro proyecto: Leer eventos del usuario desde Firestore
+
+3. UPDATE (Actualizar):
+   - Modificar datos existentes
+   - En nuestro proyecto: Editar eventos existentes
+
+4. DELETE (Eliminar):
+   - Eliminar registros/documentos
+   - En nuestro proyecto: Eliminar eventos
+
+EN NUESTRO PROYECTO:
+- CREATE: Función createEvent() en EventViewModel
+- READ: Listener en tiempo real en EventViewModel que lee eventos
+- UPDATE: Función updateEvent() en EventViewModel
+- DELETE: Función deleteEvent() en EventViewModel
+
+Todas estas operaciones se realizan sobre la colección "events" en Firestore.
+
