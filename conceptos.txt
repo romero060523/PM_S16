@@ -1,122 +1,21 @@
 CONCEPTOS TÉCNICOS - EventPlanner
 
-===========================================
-1. ¿QUÉ ES MVVM?
-===========================================
+¿Qué es MVVM?
 
-MVVM (Model-View-ViewModel) es un patrón de arquitectura de software que separa la lógica de negocio de la interfaz de usuario.
+MVVM es un patrón de arquitectura que separa el código en tres partes. El Model es donde están los datos, en nuestro caso la clase Event que guarda la información de cada evento. La View es lo que el usuario ve, todas nuestras pantallas de Compose como LoginScreen y HomeScreen. El ViewModel es el intermediario que conecta ambos, contiene la lógica y expone los datos de forma que la UI se actualice sola cuando cambian. En nuestro proyecto tenemos AuthViewModel para la autenticación y EventViewModel para manejar los eventos. La ventaja es que cada parte tiene su responsabilidad clara, es más fácil de probar y mantener.
 
-• MODEL (Modelo): Representa los datos y la lógica de negocio. En nuestro caso, la clase Event que representa un evento.
+¿Qué es Firebase Auth?
 
-• VIEW (Vista): Es la interfaz de usuario. En nuestro proyecto, las pantallas de Compose (LoginScreen, HomeScreen, etc.).
+Firebase Auth es el servicio de Google para manejar usuarios. Básicamente te permite que la gente se registre e inicie sesión sin tener que programar toda esa lógica desde cero. Soporta email y contraseña, pero también puede integrarse con Google, Facebook y otros. Lo bueno es que maneja las sesiones automáticamente y cada usuario que se registra recibe un UID único. En nuestra app lo usamos para que los usuarios puedan crear cuenta e iniciar sesión, y ese UID lo guardamos junto con cada evento para saber quién lo creó. Toda la lógica de autenticación está en el AuthViewModel.
 
-• VIEWMODEL: Actúa como intermediario entre la Vista y el Modelo. Contiene la lógica de presentación y expone datos observables para la Vista. En nuestro proyecto: AuthViewModel y EventViewModel.
+¿Qué es Firestore?
 
-VENTAJAS:
-- Separación de responsabilidades
-- Facilita las pruebas unitarias
-- Permite reutilizar ViewModels en diferentes vistas
-- Mantiene la UI reactiva a cambios en los datos
+Firestore es la base de datos de Firebase. Es NoSQL, así que no tiene tablas como las bases de datos tradicionales, sino que guarda todo en documentos dentro de colecciones. Lo mejor es que funciona en tiempo real, o sea que si alguien crea un evento, todos los que tienen la app abierta lo ven aparecer al instante sin tener que refrescar. En nuestro proyecto guardamos los eventos en una colección llamada "events", cada evento es un documento con campos como título, fecha, descripción y el userId del dueño. Usamos snapshot listeners para que cuando haya cambios en Firestore, la lista de eventos se actualice sola en la pantalla.
 
+¿Qué es Jetpack Compose?
 
-===========================================
-2. ¿QUÉ ES FIREBASE AUTH?
-===========================================
+Compose es la forma moderna de hacer interfaces en Android. Antes tenías que usar XML que era un rollo, ahora escribes todo en Kotlin de forma declarativa. Básicamente describes cómo quieres que se vea la pantalla y Compose se encarga del resto. Las funciones se llaman composables y puedes combinarlas para hacer pantallas complejas. Lo bueno es que si cambian los datos, la UI se actualiza sola sin que tengas que hacer nada. En nuestra app todas las pantallas están hechas con Compose, usamos Material3 para los componentes y manejamos el estado con StateFlow para que todo sea reactivo.
 
-Firebase Authentication es un servicio de autenticación de Google que permite a los desarrolladores agregar fácilmente autenticación de usuarios a sus aplicaciones.
+¿Qué es un CRUD?
 
-CARACTERÍSTICAS:
-- Autenticación con email y contraseña
-- Soporte para múltiples proveedores (Google, Facebook, etc.)
-- Gestión automática de sesiones
-- Recuperación de contraseñas
-- Validación de usuarios
-
-EN NUESTRO PROYECTO:
-- Usamos Firebase Auth para el registro e inicio de sesión de usuarios
-- Cada usuario autenticado tiene un UID único que usamos para asociar eventos a usuarios
-- La autenticación se maneja en AuthViewModel
-
-
-===========================================
-3. ¿QUÉ ES FIRESTORE?
-===========================================
-
-Firestore es una base de datos NoSQL en la nube de Firebase que almacena datos en documentos organizados en colecciones.
-
-CARACTERÍSTICAS:
-- Base de datos en tiempo real (sincronización automática)
-- Escalable y flexible
-- Consultas potentes
-- Seguridad basada en reglas
-- Sincronización offline
-
-ESTRUCTURA:
-- Colecciones: Grupos de documentos (ej: "events")
-- Documentos: Unidades de datos (cada evento es un documento)
-- Campos: Propiedades dentro de un documento (title, date, description, userId)
-
-EN NUESTRO PROYECTO:
-- Almacenamos eventos en la colección "events"
-- Cada evento tiene: id, title, date, description, userId
-- Usamos snapshot listeners para actualizaciones en tiempo real
-- Filtramos eventos por userId para mostrar solo los del usuario actual
-
-
-===========================================
-4. ¿QUÉ ES JETPACK COMPOSE?
-===========================================
-
-Jetpack Compose es el toolkit moderno de Android para construir interfaces de usuario nativas usando Kotlin.
-
-CARACTERÍSTICAS:
-- Declarativo: Describes cómo debe verse la UI, no cómo construirla
-- Composable: Funciones que pueden combinarse para crear UI compleja
-- Reactivo: La UI se actualiza automáticamente cuando cambian los datos
-- Menos código: Comparado con XML y View system tradicional
-
-VENTAJAS:
-- Código más conciso y legible
-- Prevención de errores en tiempo de compilación
-- Mejor rendimiento
-- Integración con Material Design 3
-
-EN NUESTRO PROYECTO:
-- Todas las pantallas están construidas con Compose
-- Usamos Material3 para componentes modernos
-- State management con StateFlow y collectAsState
-- Navegación con Navigation Compose
-
-
-===========================================
-5. ¿QUÉ ES UN CRUD?
-===========================================
-
-CRUD es un acrónimo que significa Create (Crear), Read (Leer), Update (Actualizar), Delete (Eliminar). Representa las cuatro operaciones básicas que se pueden realizar sobre datos persistentes.
-
-OPERACIONES:
-
-1. CREATE (Crear):
-   - Crear nuevos registros/documentos
-   - En nuestro proyecto: Crear nuevos eventos
-
-2. READ (Leer):
-   - Obtener y mostrar datos existentes
-   - En nuestro proyecto: Leer eventos del usuario desde Firestore
-
-3. UPDATE (Actualizar):
-   - Modificar datos existentes
-   - En nuestro proyecto: Editar eventos existentes
-
-4. DELETE (Eliminar):
-   - Eliminar registros/documentos
-   - En nuestro proyecto: Eliminar eventos
-
-EN NUESTRO PROYECTO:
-- CREATE: Función createEvent() en EventViewModel
-- READ: Listener en tiempo real en EventViewModel que lee eventos
-- UPDATE: Función updateEvent() en EventViewModel
-- DELETE: Función deleteEvent() en EventViewModel
-
-Todas estas operaciones se realizan sobre la colección "events" en Firestore.
-
+CRUD son las cuatro operaciones básicas que haces con datos: Create para crear, Read para leer, Update para actualizar y Delete para eliminar. Es lo mínimo que necesitas para que una app funcione con datos persistentes. En nuestro proyecto implementamos todas estas operaciones para los eventos. Create es cuando el usuario crea un nuevo evento con el formulario, Read es cuando mostramos la lista de eventos del usuario que viene de Firestore, Update es cuando edita un evento existente y Delete es cuando lo borra. Todo esto lo manejamos en el EventViewModel con funciones específicas para cada operación, y todo se guarda en la colección "events" de Firestore.

@@ -1,109 +1,18 @@
 EXPLICACIÓN DEL USO RESPONSABLE DE IA
 EventPlanner - Examen Final
 
-===========================================
-PARTES ASISTIDAS POR IA
-===========================================
+¿Qué partes fueron asistidas por IA?
 
-1. ESTRUCTURA DEL PROYECTO:
-   - La organización de carpetas (data, viewmodel, ui/screens) fue sugerida por IA
-   - La estructura MVVM fue guiada por IA
+La estructura del proyecto con las carpetas data, viewmodel y ui/screens fue sugerida por IA, así como la organización MVVM en general. Los ViewModels de autenticación y eventos recibieron bastante ayuda, especialmente la parte de Firestore con los snapshot listeners y el manejo de estados con StateFlow. Las pantallas de Compose como HomeScreen y EventEntryScreen también tuvieron asistencia en su estructura básica, algunos componentes de Material3 y la navegación entre pantallas. Incluso estos archivos de documentación fueron generados con ayuda de IA.
 
-2. CÓDIGO DE VIEWMODELS:
-   - La implementación de AuthViewModel y EventViewModel recibió asistencia de IA
-   - La lógica de Firestore con snapshot listeners fue asistida
-   - El manejo de estados con StateFlow fue guiado por IA
+¿Qué partes programamos nosotros?
 
-3. PANTALLAS DE COMPOSE:
-   - La estructura básica de HomeScreen y EventEntryScreen fue asistida
-   - Algunos componentes de Material3 fueron sugeridos por IA
-   - La navegación entre pantallas recibió asistencia
+Adaptamos toda la lógica de autenticación a lo que necesitábamos específicamente, implementamos las validaciones como verificar campos vacíos y que las contraseñas coincidan. Configuramos la estructura de datos Event según nuestros requisitos. En cuanto al diseño, personalizamos las pantallas, ajustamos colores y espaciados, y creamos la experiencia de usuario que queríamos. Conectamos todo manualmente, nos aseguramos de que la navegación funcionara bien y probamos todo corrigiendo los errores que encontramos. También configuramos Firebase, las dependencias en build.gradle y el AndroidManifest.
 
-4. DOCUMENTACIÓN:
-   - Los archivos conceptos.txt e IA_EXPLICACION.txt fueron generados con asistencia de IA
+¿Cómo evitar depender totalmente de IA?
 
+Lo más importante es entender el código antes de usarlo. Siempre leemos y entendemos completamente lo que la IA genera, y si algo no queda claro investigamos hasta comprenderlo. No copiamos código sin saber qué hace cada línea. Estudiamos los conceptos antes de implementar, entendemos por qué usamos cada tecnología y conocemos las mejores prácticas. Siempre modificamos el código de IA para adaptarlo a nuestras necesidades, agregamos nuestras propias validaciones y personalizamos el diseño. Probamos todo manualmente, corregimos errores nosotros mismos y entendemos los mensajes de error para solucionarlos. Escribimos comentarios en el código, mantenemos documentación actualizada y explicamos nuestras decisiones técnicas. La IA es solo un asistente que sugiere código, nosotros tomamos las decisiones finales y revisamos todo lo que sugiere. Practicamos programación escribiendo código manualmente, resolvemos problemas sin IA primero y solo la usamos cuando estamos realmente atascados. Mantenemos el conocimiento actualizado leyendo documentación oficial, siguiendo tutoriales y participando en comunidades.
 
-===========================================
-PARTES PROGRAMADAS POR NOSOTROS
-===========================================
+Conclusión
 
-1. LÓGICA DE NEGOCIO:
-   - Adaptamos la lógica de autenticación a nuestros requisitos específicos
-   - Implementamos las validaciones personalizadas (campos vacíos, contraseñas, etc.)
-   - Configuramos la estructura de datos Event según nuestras necesidades
-
-2. DISEÑO DE UI:
-   - Personalizamos el diseño de las pantallas según nuestros gustos
-   - Ajustamos colores, espaciados y componentes visuales
-   - Implementamos la experiencia de usuario que consideramos mejor
-
-3. INTEGRACIÓN:
-   - Conectamos todas las piezas del proyecto manualmente
-   - Aseguramos que la navegación funcione correctamente
-   - Probamos y corregimos errores encontrados
-
-4. CONFIGURACIÓN:
-   - Configuramos Firebase (google-services.json)
-   - Ajustamos dependencias en build.gradle.kts
-   - Configuramos el AndroidManifest.xml
-
-
-===========================================
-CÓMO EVITAR DEPENDER TOTALMENTE DE IA
-===========================================
-
-1. COMPRENDER EL CÓDIGO:
-   - Antes de usar código generado por IA, lo leemos y entendemos completamente
-   - Si no entendemos algo, investigamos hasta comprenderlo
-   - No copiamos código sin saber qué hace cada línea
-
-2. APRENDER LOS CONCEPTOS:
-   - Estudiamos MVVM, Firebase, Compose antes de implementar
-   - Entendemos por qué usamos cada tecnología
-   - Conocemos las mejores prácticas de cada herramienta
-
-3. MODIFICAR Y ADAPTAR:
-   - Siempre modificamos el código de IA para adaptarlo a nuestras necesidades
-   - Agregamos nuestras propias validaciones y lógica
-   - Personalizamos el diseño y la experiencia de usuario
-
-4. PROBAR Y DEBUGGEAR:
-   - Probamos todo el código manualmente
-   - Corregimos errores nosotros mismos
-   - Entendemos los mensajes de error y cómo solucionarlos
-
-5. DOCUMENTAR:
-   - Escribimos comentarios en el código para explicar nuestra lógica
-   - Mantenemos documentación actualizada
-   - Explicamos nuestras decisiones técnicas
-
-6. USAR IA COMO HERRAMIENTA, NO COMO SOLUCIÓN:
-   - La IA es un asistente que sugiere código
-   - Nosotros tomamos las decisiones finales
-   - Revisamos y mejoramos todo lo que la IA sugiere
-
-7. PRACTICAR PROGRAMACIÓN:
-   - Escribimos código manualmente regularmente
-   - Resolvemos problemas sin IA primero
-   - Solo usamos IA cuando estamos realmente atascados
-
-8. MANTENER CONOCIMIENTO ACTUALIZADO:
-   - Leemos documentación oficial
-   - Seguimos tutoriales y cursos
-   - Participamos en comunidades de desarrolladores
-
-
-===========================================
-CONCLUSIÓN
-===========================================
-
-La IA fue utilizada como una herramienta de asistencia para acelerar el desarrollo y sugerir mejores prácticas. Sin embargo, todo el código fue revisado, entendido, modificado y probado por nosotros. 
-
-No dependemos totalmente de IA porque:
-- Comprendemos cada parte del código
-- Sabemos cómo modificar y mejorar el código
-- Podemos debuggear y resolver problemas
-- Entendemos los conceptos fundamentales
-
-La IA nos ayudó a ser más eficientes, pero el conocimiento y las decisiones fueron nuestras.
-
+La IA fue una herramienta de asistencia que nos ayudó a acelerar el desarrollo y a seguir mejores prácticas. Sin embargo, todo el código fue revisado, entendido, modificado y probado por nosotros. No dependemos totalmente de IA porque comprendemos cada parte del código, sabemos cómo modificarlo y mejorarlo, podemos debuggear y resolver problemas, y entendemos los conceptos fundamentales. La IA nos ayudó a ser más eficientes, pero el conocimiento y las decisiones fueron nuestras.
