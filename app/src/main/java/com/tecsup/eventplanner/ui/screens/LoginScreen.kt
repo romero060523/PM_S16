@@ -3,10 +3,13 @@ package com.tecsup.eventplanner.ui.screens
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -38,12 +41,21 @@ fun LoginScreen(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "Programación Móvil - Tecsup",
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
+            )
+
+            Image(
+                painter = painterResource(id = R.drawable.eventplanner),
+                contentDescription = "Logo Tecsup",
+                modifier = Modifier
+                    .size(150.dp) // Ajusta el tamaño si quieres más grande o más pequeño
+                    .clip(CircleShape)
             )
         }
 
@@ -53,16 +65,6 @@ fun LoginScreen(
         */
         Spacer(modifier = Modifier.height(12.dp))
         // ---------- IMAGEN TECsup ---------
-
-        Column {
-            Image(
-                painter = painterResource(id = R.drawable.eventplanner),
-                contentDescription = "Logo Tecsup",
-                modifier = Modifier
-                    .size(120.dp) // Ajusta el tamaño si quieres más grande o más pequeño
-                    .align(Alignment.CenterHorizontally)
-            )
-        }
 
 
         // ---------- CONTENIDO PRINCIPAL --------- (Imagen 3)
@@ -130,7 +132,7 @@ fun LoginScreen(
 
         // ---------- PIE DE PÁGINA --------- (Imagen 2)
         Text(
-            text = "Juan León S. - Tecsup",
+            text = "Tecsup",
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
